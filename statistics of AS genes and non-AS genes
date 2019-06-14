@@ -1,0 +1,60 @@
+import csv
+
+gene_length_of_AS_gene_summary=[]
+gene_length_of_Non_AS_gene_summary=[]
+Sum_length_of_AS_gene=Sum_length_of_Non_AS_gene=0
+gff_of_AS_gene=gff_of_Non_AS_gene=[]
+exon_number_of_all_AS_gene=exon_number_of_all_Non_AS_gene=0
+exon_length_of_all_AS_gene=exon_length_of_all_Non_AS_gene=0
+
+with open(AS_gene_file) as file:
+    AS_gene_non_redundancy=list(csv.reader(file))
+    print("AS gene number: "+str(len(AS_gene_non_redundancy)))
+
+with open(non-AS_gene_file) as file:
+    Non_AS_event_multiexonic_gene=list(csv.reader(file))
+    print("Non-AS gene number: "+str(len(Non_AS_event_multiexonic_gene)))
+    
+
+with open(path_of_gff_file_of_Litopenaeus_vannamei) as file:
+    genome_gff=list(csv.reader(file))
+    print("genome gene number: "+str(len(genome_gff)))
+    for i in genome_gff:
+        if [i[0]] in AS_gene_non_redundancy:
+            gene_length_of_AS_gene=int(i[5])-int(i[4])+1
+            Sum_length_of_AS_gene=Sum_length_of_AS_gene+gene_length_of_AS_gene
+            i.append(gene_length_of_AS_gene)
+            gene_length_of_AS_gene_summary.append(i)
+        if [i[0]] in Non_AS_event_multiexonic_gene:
+            gene_length_of_Non_AS_gene=int(i[5])-int(i[4])+1
+            Sum_length_of_Non_AS_gene=Sum_length_of_Non_AS_gene+gene_length_of_Non_AS_gene
+            i.append(gene_length_of_Non_AS_gene)
+            gene_length_of_Non_AS_gene_summary.append(i)
+    print(Sum_length_of_AS_gene)
+    print(Sum_length_of_Non_AS_gene)
+
+with open(path_of_gff_file_of_Litopenaeus_vannamei) as file:
+    genome_gff=list(csv.reader(file))
+    print("genome gene number: "+str(len(genome_gff)))
+    for i in genome_gff:
+        if i:
+            if [i[0]] in AS_gene_non_redundancy:
+                gff_of_AS_gene.append(i)
+                print(len(gff_of_AS_gene))
+                if i[3]=="exon":
+                    exon_number_of_all_AS_gene=exon_number_of_all_AS_gene+1
+                    exon_length_of_all_AS_gene=exon_length_of_all_AS_gene+int(i[5])-int(i[4])+1
+            if [i[0]] in Non_AS_event_multiexonic_gene:
+                gff_of_Non_AS_gene.append(i)
+                print(len(gff_of_Non_AS_gene))
+                if i[3]=="exon":
+                    exon_number_of_all_Non_AS_gene=exon_number_of_all_Non_AS_gene+1
+                    exon_length_of_all_Non_AS_gene=exon_length_of_all_Non_AS_gene+int(i[5])-int(i[4])+1
+
+    print(len(gff_of_AS_gene))
+    print(len(gff_of_Non_AS_gene))
+    print("exon_number_of_all_AS_gene: "+exon_number_of_all_AS_gene)
+    print("exon_length_of_all_AS_gene: "+exon_length_of_all_AS_gene)
+    print("exon_number_of_all_Non_AS_gene: "+exon_number_of_all_Non_AS_gene)
+    print("exon_length_of_all_Non_AS_gene: "+exon_length_of_all_Non_AS_gene)
+    
